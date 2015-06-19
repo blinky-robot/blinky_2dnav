@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<launch>
+  <node name="gmapping" pkg="gmapping" type="slam_gmapping" output="screen">
+    <param name="map_update_interval" value="2.0" />
+    <param name="sigma" value=".10" />
+  </node>
+</launch>

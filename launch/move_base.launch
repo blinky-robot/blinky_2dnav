@@ -1,5 +1,6 @@
+<?xml version="1.0"?>
 <launch>
-	<master auto="start"/>
+	<!-- master auto="start"/ -->
 
 	<!-- Run the map server -->
 	<!--node name="map_server" pkg="map_server" type="map_server" args="[map_package]/my_map.pgm [resolution]"/-->
@@ -7,14 +8,21 @@
 	<!-- Run AMCL -->
 	<!--inclule file="$(find_amcl)/examples/amcl.omni.launch" /-->
 
+	<node pkg="blinky_2dnav" type="twist_to_ackermann" respawn="true" name="twist_to_ackermann" output="screen" />
+
 	<node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
-		<rosparam file="../params/costmap_common_params.yaml" command="load" ns="global_costmap"/>
+		<param name="base_local_planner" value="ackermann_local_planner/AckermannPlannerROS" />
+		<!--param name="base_global_planner" value="navfn/NavfnROS" /-->
+
+		<rosparam>recovery_behaviors: [{name: conservative_reset, type: clear_costmap_recovery/ClearCostmapRecovery}, {name: aggressive_reset, type: clear_costmap_recovery/ClearCostmapRecovery}]</rosparam>
+
 		<!-- costmap parameters -->
-		<rosparam file="../params/costmap_common_params.yaml" command="load" ns="local_costmap"/>
-		<rosparam file="../params/local_costmap_params.yaml" command="load"/>
-		<rosparam file="../params/global_costmap_params.yaml" command="load"/>
+		<rosparam file="$(find blinky_2dnav)/config/costmap_common_params.yaml" command="load" ns="global_costmap"/>
+		<rosparam file="$(find blinky_2dnav)/config/costmap_common_params.yaml" command="load" ns="local_costmap"/>
+		<rosparam file="$(find blinky_2dnav)/config/local_costmap_params.yaml" command="load"/>
+		<rosparam file="$(find blinky_2dnav)/config/global_costmap_params.yaml" command="load"/>
 
 		<!-- local planner params -->
-		<rosparam file="../params/ackermann_planner_params.yaml" command="load"/>
+		<rosparam file="$(find blinky_2dnav)/config/planner_params.yaml" command="load"/>
 	</node>
 </launch>

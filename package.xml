@@ -13,8 +13,12 @@
   <author email="logans@cottsay.net">Scott K Logan</author>
 
   <buildtool_depend>catkin</buildtool_depend>
+  <build_depend>ackermann_msgs</build_depend>
+  <build_depend>geometry_msgs</build_depend>
   <build_depend>roscpp</build_depend>
   <build_depend>roslaunch</build_depend>
   <run_depend>roscpp</run_depend>
   <run_depend>roslaunch</run_depend>
+  <run_depend>ackermann_msgs</run_depend>
+  <run_depend>geometry_msgs</run_depend>
 </package>
