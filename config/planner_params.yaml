@@ -1,13 +1,16 @@
 AckermannPlannerROS:
-  max_vel: 0.0
+  max_vel: 0.3
   # min_vel
   # min_radius: 1.09
-  min_radius: 0.9
+  min_radius: 1.09
   # acc_lim:
-  lookahead_factor: 1.0
+  lookahead_factor: 3
   radius_samples: 30
-  xy_goal_tolerance: 0.2
+  xy_goal_tolerance: 0.5
   yaw_goal_tolerance: 6.2
   publish_goal: true
   publish_near_point: true
   # move
+
+GlobalPlanner:
+  orientation_mode: forward

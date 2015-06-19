@@ -12,7 +12,7 @@
 
 	<node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
 		<param name="base_local_planner" value="ackermann_local_planner/AckermannPlannerROS" />
-		<!--param name="base_global_planner" value="navfn/NavfnROS" /-->
+		<param name="base_global_planner" value="navfn/NavfnROS" />
 
 		<rosparam>recovery_behaviors: [{name: conservative_reset, type: clear_costmap_recovery/ClearCostmapRecovery}, {name: aggressive_reset, type: clear_costmap_recovery/ClearCostmapRecovery}]</rosparam>
 
