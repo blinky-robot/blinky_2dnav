@@ -14,3 +14,6 @@ AckermannPlannerROS:
 
 GlobalPlanner:
   orientation_mode: forward
+
+WaypointGlobalPlanner:
+  waypoint_list: /home/cottsay/waypoint_list.txt

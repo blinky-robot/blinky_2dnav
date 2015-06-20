@@ -53,7 +53,7 @@ namespace twist_to_ackermann
 
 		void disableCallback(const std_msgs::Int16::ConstPtr &msg)
 		{
-			if (msg->data > 0)
+			if (msg->data < 0)
 			{
 				disable = false;
 			}
