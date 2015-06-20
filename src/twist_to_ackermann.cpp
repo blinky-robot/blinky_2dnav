@@ -23,9 +23,10 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include <ros/ros.h>
-#include <geometry_msgs/Twist.h>
 #include <ackermann_msgs/AckermannDrive.h>
+#include <geometry_msgs/Twist.h>
+#include <ros/ros.h>
+#include <std_msgs/Int16.h>
 
 namespace twist_to_ackermann
 {
@@ -36,14 +37,40 @@ namespace twist_to_ackermann
 			: nh(nh),
 			  nh_priv(nh_priv),
 			  ack_pub(nh.advertise<ackermann_msgs::AckermannDrive>("ackermann_cmd", 1)),
+			  disable_sub(nh.subscribe("nav_switch", 1, &TwistToAckermann::disableCallback, this)),
 			  twist_sub(nh.subscribe("cmd_vel", 1, &TwistToAckermann::twistCallback, this))
 		{
 		}
 
 		~TwistToAckermann()
 		{
+			disable = true;
+
 			twist_sub.shutdown();
+			disable_sub.shutdown();
 			ack_pub.shutdown();
+		}
+
+		void disableCallback(const std_msgs::Int16::ConstPtr &msg)
+		{
+			if (msg->data > 0)
+			{
+				disable = false;
+			}
+			else
+			{
+				// If we were enabled before, toss out a quick stop message for good measure
+				if (!disable)
+				{
+					ackermann_msgs::AckermannDrivePtr ack_msg(new ackermann_msgs::AckermannDrive());
+
+					ack_msg->speed = 0;
+					ack_msg->steering_angle = 0;
+
+					ack_pub.publish(ack_msg);
+				}
+				disable = true;
+			}
 		}
 
 		void twistCallback(const geometry_msgs::Twist::ConstPtr &msg)
@@ -53,13 +80,19 @@ namespace twist_to_ackermann
 			ack_msg->speed = msg->linear.x;
 			ack_msg->steering_angle = msg->angular.z;
 
-			ack_pub.publish(ack_msg);
+			if (!disable)
+			{
+				ack_pub.publish(ack_msg);
+			}
 		}
 	private:
 		ros::NodeHandle nh;
 		ros::NodeHandle nh_priv;
 		ros::Publisher ack_pub;
+		ros::Subscriber disable_sub;
 		ros::Subscriber twist_sub;
+
+		bool disable;
 	};
 }
 

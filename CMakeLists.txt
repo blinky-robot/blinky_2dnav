@@ -6,17 +6,13 @@ find_package(catkin REQUIRED COMPONENTS
   geometry_msgs
   roscpp
   roslaunch
+  std_msgs
 )
 
 ###################################
 ## catkin specific configuration ##
 ###################################
-catkin_package(
-#  INCLUDE_DIRS include
-#  LIBRARIES blinky_2dnav
-#  CATKIN_DEPENDS ackermann_msgs geometry_msgs roscpp roslaunch
-#  DEPENDS system_lib
-)
+catkin_package()
 
 ###########
 ## Build ##

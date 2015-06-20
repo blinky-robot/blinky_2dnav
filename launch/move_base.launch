@@ -1,15 +1,17 @@
 <?xml version="1.0"?>
 <launch>
-	<!-- master auto="start"/ -->
-
 	<!-- Run the map server -->
-	<!--node name="map_server" pkg="map_server" type="map_server" args="[map_package]/my_map.pgm [resolution]"/-->
+	<node name="map_server" pkg="map_server" type="map_server" args="~/map" />
 	
 	<!-- Run AMCL -->
-	<!--inclule file="$(find_amcl)/examples/amcl.omni.launch" /-->
+	<inclule file="$(find blinky_2dnav)/launch/amcl_diff.launch" />
 
-	<node pkg="blinky_2dnav" type="twist_to_ackermann" respawn="true" name="twist_to_ackermann" output="screen" />
+	<!-- Convert the nav stack's twist msgs to AckermannDrive msgs -->
+	<node pkg="blinky_2dnav" type="twist_to_ackermann" respawn="true" name="twist_to_ackermann" output="screen">
+		<remap from="nav_switch" to="" />
+	</node>
 
+	<!-- Nav stack -->
 	<node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
 		<param name="base_local_planner" value="ackermann_local_planner/AckermannPlannerROS" />
 		<param name="base_global_planner" value="navfn/NavfnROS" />
