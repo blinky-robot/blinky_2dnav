@@ -47,4 +47,4 @@ install(DIRECTORY
 #############
 ## Testing ##
 #############
-roslaunch_add_file_check(launch/amcl.launch launch/gmapping.launch launch/hector_mapping.launch launch/move_base.launch)
+roslaunch_add_file_check(launch/amcl.launch launch/amcl_diff.launch launch/gmapping.launch launch/hector_mapping.launch launch/move_base.launch)
