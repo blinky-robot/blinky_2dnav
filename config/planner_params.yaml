@@ -16,4 +16,4 @@ GlobalPlanner:
   orientation_mode: forward
 
 WaypointGlobalPlanner:
-  waypoint_list: /home/cottsay/waypoint_list.txt
+  waypoint_list: /home/blinky/waypoint_list.txt

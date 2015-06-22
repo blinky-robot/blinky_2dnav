@@ -1,10 +1,11 @@
 <?xml version="1.0"?>
 <launch>
 	<!-- Run the map server -->
-	<node name="map_server" pkg="map_server" type="map_server" args="/home/cottsay/map.yaml" />
+	<node name="map_server" pkg="map_server" type="map_server" args="/home/blinky/map.yaml" />
 	
 	<!-- Run AMCL -->
-	<include file="$(find blinky_2dnav)/launch/amcl_diff.launch" />
+	<!-- include file="$(find blinky_2dnav)/launch/amcl_diff.launch" /-->
+	<node pkg="tf" type="static_transform_publisher" name="map_broadcaster" args="0 0 0 0 0 0 1 map odom 50" />
 
 	<!-- Convert the nav stack's twist msgs to AckermannDrive msgs -->
 	<node pkg="blinky_2dnav" type="twist_to_ackermann" respawn="true" name="twist_to_ackermann" output="screen">
